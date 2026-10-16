@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/Yuseph/Downloads/Project2/The Game/Content/Circle.png","C:/Users/Yuseph/Downloads/Project2/The Game/Content/bin/DesktopGL/Content/Circle.xnb","TextureProcessor","Texture2DContent",634,40085,0.2186164
+"C:/Users/Yuseph/Downloads/Project2/The Game/Content/Rectangle.png","C:/Users/Yuseph/Downloads/Project2/The Game/Content/bin/DesktopGL/Content/Rectangle.xnb","TextureProcessor","Texture2DContent",302,30085,0.0062029
