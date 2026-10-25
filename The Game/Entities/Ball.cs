@@ -11,8 +11,13 @@ public class Ball : Entity {
             return new Vector2(BallTexture.Width / 2f, BallTexture.Height / 2f);
         }
     }
+    private float _rotationRad;
     public float Rotation {
-        get; private set;
+        get {
+            return _rotationRad * (180f / MathF.PI);
+        } set {
+            _rotationRad = value * (MathF.PI / 180f);
+        }
     }
     public float Radius {
         get {
@@ -26,7 +31,7 @@ public class Ball : Entity {
                     throw new Exception("Image isn't equilateral.");
                 }
                 
-                return TexWidth / 2f * _scale.X;
+                return TexWidth / 2f * Scale.X;
             } catch (Exception) {
                 return 0f;
             }
@@ -41,13 +46,16 @@ public class Ball : Entity {
             _velocity = value;
         }
     }
-    private Vector2 _acceleration, _scale;
+    public Vector2 Scale {
+        get; private set;
+    }
+    private Vector2 _acceleration;
     public Ball(float x, float y, float rotation = 0.0f, float mass = 0.5f) : base(x, y) {
         Rotation = rotation;
 
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
-        _scale = Vector2.Multiply(Vector2.One, 0.5f);
+        Scale = Vector2.Multiply(Vector2.One, 0.5f);
         this.Mass = mass;
     }
 
@@ -56,7 +64,7 @@ public class Ball : Entity {
 
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
-        _scale = Vector2.Multiply(Vector2.One, 0.25f);
+        Scale = Vector2.Multiply(Vector2.One, 0.25f);
         this.Mass = mass;
     }
 
@@ -76,12 +84,13 @@ public class Ball : Entity {
         x += _velocity.X;
         y += _velocity.Y;
 
-        // Angular velocity implementation
+        // Angular velocity implementation (JUST HAS TO ADD ROTATION TO COUNT FOR GRADE NOT EVEN VELOCITY)
+        // IMPLEMENT NEBULAE FOR THE PARALLAX ITS COOL
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
         if (BallTexture is null) return;
-        spriteBatch.Draw(BallTexture, Position, null, Color.White, Rotation, Origin, _scale, SpriteEffects.None, 0f);
+        spriteBatch.Draw(BallTexture, Position, null, Color.White, _rotationRad, Origin, Scale, SpriteEffects.None, 0f);
     }
 
     public static void ResolveElasticCollision(Ball b1, Ball b2) {
@@ -98,6 +107,7 @@ public class Ball : Entity {
 
         Vector2 v0;
         v0.X = ((m0 - m1) / (m0 + m1)) * u0.X + ((2 * m1) / (m0 + m1)) * u1.X;
+
         Vector2 v1;
         v1.X = ((2 * m0) / (m0 + m1)) * u0.X + ((m1 - m0) / (m0 + m1)) * u1.X;
 
