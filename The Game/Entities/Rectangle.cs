@@ -5,14 +5,22 @@ using The_Game;
 
 public class Rectangle : Entity {
     public static Texture2D RectangleTexture;
-    public Vector2 Origin {
+    public override Texture2D texture {
+        get {
+            return RectangleTexture;
+        }
+    }
+    public override Vector2 Origin {
         get {
             if (RectangleTexture == null) return Vector2.Zero;
             return new Vector2(RectangleTexture.Width / 2f, RectangleTexture.Height / 2f);
         }
     }
+    public override Vector2 Scale {
+        get; protected set;
+    }
     private float _rotationRad;
-    public float Rotation {
+    public override float Rotation {
         get {
             return _rotationRad * (180f / MathF.PI);
         } set {
@@ -48,17 +56,15 @@ public class Rectangle : Entity {
             _velocity = value;
         }
     }
-    public Vector2 Scale {
-        get; private set;
-    }
     private Vector2 _acceleration;
     public Rectangle(float x, float y, float rotation = 0.0f, float mass = 0.5f) : base(x, y) {
+        PrevPosition = Position;
         Rotation = rotation;
 
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
         Scale = Vector2.Multiply(Vector2.One, 0.5f);
-        this.Mass = mass;
+        Mass = mass;
     }
 
     public Rectangle(float rotation = 0.0f, float mass = 0.5f) : base(DEFAULT_X, DEFAULT_Y) {
@@ -67,7 +73,7 @@ public class Rectangle : Entity {
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
         Scale = Vector2.Multiply(Vector2.One, 0.5f);
-        this.Mass = mass;
+        Mass = mass;
     }
     public override void Update(GameTime gameTime) {
         float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;

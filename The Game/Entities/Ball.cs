@@ -5,14 +5,22 @@ using The_Game;
 
 public class Ball : Entity {
     public static Texture2D BallTexture;
-    public Vector2 Origin {
+    public override Texture2D texture {
+        get {
+            return BallTexture;
+        }
+    }
+    public override Vector2 Origin {
         get {
             if (BallTexture is null) return Vector2.Zero;
             return new Vector2(BallTexture.Width / 2f, BallTexture.Height / 2f);
         }
     }
+    public override Vector2 Scale {
+        get; protected set;
+    }
     private float _rotationRad;
-    public float Rotation {
+    public override float Rotation {
         get {
             return _rotationRad * (180f / MathF.PI);
         } set {
@@ -46,17 +54,15 @@ public class Ball : Entity {
             _velocity = value;
         }
     }
-    public Vector2 Scale {
-        get; private set;
-    }
     private Vector2 _acceleration;
     public Ball(float x, float y, float rotation = 0.0f, float mass = 0.5f) : base(x, y) {
+        PrevPosition = Position;
         Rotation = rotation;
 
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
         Scale = Vector2.Multiply(Vector2.One, 0.5f);
-        this.Mass = mass;
+        Mass = mass;
     }
 
     public Ball(float rotation = 0.0f, float mass = 0.5f) : base(DEFAULT_X, DEFAULT_Y) {
@@ -65,7 +71,7 @@ public class Ball : Entity {
         _velocity = Vector2.Zero;
         _acceleration = Vector2.Zero;
         Scale = Vector2.Multiply(Vector2.One, 0.25f);
-        this.Mass = mass;
+        Mass = mass;
     }
 
     public override void Update(GameTime gameTime) {

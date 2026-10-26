@@ -1,10 +1,23 @@
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public class Entity {
+public abstract class Entity {
     protected const float DEFAULT_X = 0.0f;
     protected const float DEFAULT_Y = 0.0f;
+    public abstract Texture2D texture {
+        get;
+    }
+    public abstract Vector2 Origin {
+        get;
+    }
+    public virtual float Rotation {
+        get; set;
+    }
     public Vector2 PrevPosition {
+        get; protected set;
+    }
+    public abstract Vector2 Scale {
         get; protected set;
     }
     private float _x;
